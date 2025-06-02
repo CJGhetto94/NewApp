@@ -23,13 +23,20 @@ class ShadowView: UIView {
         
         addSubview(imageView)
     }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let shadowPath = UIBezierPath(rect: bounds)
+        layer.shadowPath = shadowPath.cgPath
+    }
+
     
     private func setupView() {
         layer.cornerRadius = 20
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize(width: 5, height: 5)
-        layer.shadowOpacity = 1
+        layer.shadowOpacity = 0.7
         layer.shadowRadius = 10
+        
     }
     
     private func setupLayout() {
