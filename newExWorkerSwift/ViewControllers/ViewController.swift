@@ -1,28 +1,36 @@
 import UIKit
 
 class ViewController: UIViewController {
-    private let helper = Helper()
+    
     private let textLabel = UILabel()
-    private let shadowView = ShadowView(imageName: "helloWorldImage")
-    private let secondShadowView = ShadowView(imageName: "secondHelloWorld")
+    private let shadowView = ShadowView(imageName: ShadowViewType.helloWorld.rawValue)
+    private let secondShadowView = ShadowView(imageName: ShadowViewType.secondHelloWorld.rawValue)
     private let stackView = UIStackView()
+    
+    private let helper = Helper()
+    
+    private var randomNumber: Int {
+        Int.random(in: 1...10)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(ciColor: .gray)
         updateNumbers()
+        
         setupLabel()
-        setupView()
         setupStackView()
-        
-        
+        view.addGradient()
         view.addSubview(stackView)
         setupLayout()
     }
     private func updateNumbers() {
-        helper.addNumber(Int.random(in: 1...10))
+        helper.addNumber(randomNumber)
     }
-    
+}
+
+// MARK: - Setup View
+private extension ViewController {
     private func setupStackView() {
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -35,24 +43,16 @@ class ViewController: UIViewController {
         
     }
     
-    private func setupView() {
-        let gradient = CAGradientLayer()
-        gradient.frame = view.bounds
-        gradient.colors = [UIColor.yellow.cgColor, UIColor.white.cgColor, UIColor.cyan.cgColor]
-        gradient.startPoint = CGPoint(x: 0, y: 0)
-        gradient.endPoint = CGPoint(x: 1, y: 1)
-        
-        view.layer.insertSublayer(gradient, at: 0)
-    }
-    
     private func setupLabel() {
         let firstNumber = helper.getNumbers().first
         textLabel.text = "\(firstNumber ?? 0)"
-        textLabel.font = .systemFont(ofSize: 30, weight: .bold)
+        textLabel.font = .systemFont(ofSize: Constant.font30, weight: .bold)
         textLabel.textColor = .gray
         textLabel.textAlignment = .center
     }
-    
+}
+//MARK: - Setup Layout
+private extension ViewController {
     private func setupLayout() {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -64,4 +64,14 @@ class ViewController: UIViewController {
         ])
     }
 }
-
+//MARK: - Nested types
+private extension ViewController {
+    enum ShadowViewType: String {
+        case helloWorld = "helloWorldImage"
+        case secondHelloWorld = "secondHelloWorld"
+    }
+    
+    enum Constant {
+        static let font30: CGFloat = 30
+    }
+}
