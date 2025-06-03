@@ -28,6 +28,10 @@ class ShadowView: UIView {
         let shadowPath = UIBezierPath(rect: bounds)
         layer.shadowPath = shadowPath.cgPath
     }
+    
+    func updateImage(_ imageName: String) {
+        imageView.image = UIImage(named: imageName)
+    }
 
     
     private func setupView() {
